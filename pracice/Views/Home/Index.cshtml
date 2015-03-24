@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Order>
+<script>
+    $(function () {
+        $('table tr').click(function () {
+            var id = this.id;
+            $.ajax({
+                type: "GET",
+                url: '/api/ord/getordaddr/' + id,
+                contentType: "text/plain; charset-utf-8",
+                data: id,
+                dataType: "json",
+                success: function (data) {
+                    $('#ordaddr').empty();
+                    $('#ordaddr').append(data.street + '<br>');
+                    $('#ordaddr').append(data.city + '<br>');
+                    $('#ordaddr').append(data.country + '<br>');
+
+                }
+            });
+        }
+    );
+});
+</script>
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">Northwind Map app getting order address</p>
+    @*<p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Order</div>
+            <div class="panel-body" style="overflow-x:hidden; height:400px;">
+                <table class="table-striped table-condensed" id="ordtbl">
+                    @foreach (var item in Model)
+                    {
+                        <tr style="cursor:pointer" id="@item.OrderID"><td>@item.OrderID;</td></tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Address</div>
+            <div class="panel-body" id="ordaddr"></div>
+        </div>
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>
